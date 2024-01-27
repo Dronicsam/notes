@@ -15,13 +15,13 @@ export default function GetNotes() {
     }
     console.log(note)
     return (
-        <ul>
+        <ul className={"flexed"}>
             {note.map((item) => (
-                <li key={item.user_id}>
+                <li className={"list_el"} key={item.user_id}>
                     <br/>Автор - {item.author}
                     <br/>Название: {item.note_name}
                     <br/>Текст:
-                    <br/>{item.text}
+                    <br/>&emsp; {item.text}
                     <br/>Дата: {item.date}
                     <br/>Проверена? - {item.was_checked.toString()}
                 </li>

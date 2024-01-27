@@ -58450,7 +58450,9 @@ function GetNotes() {
     };
     console.log(note);
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("ul", {
+        className: "flexed",
         children: note.map((item)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
+                className: "list_el",
                 children: [
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("br", {}, void 0, false, {
                         fileName: "src/components/Get_notes.jsx",
@@ -58477,6 +58479,7 @@ function GetNotes() {
                         lineNumber: 24,
                         columnNumber: 21
                     }, this),
+                    "\u2003 ",
                     item.text,
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("br", {}, void 0, false, {
                         fileName: "src/components/Get_notes.jsx",
