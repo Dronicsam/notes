@@ -1,15 +1,20 @@
+// Основные модули
+
 import * as React from 'react'
 import { ChakraProvider } from '@chakra-ui/react'
-import { Text, Textarea, Center } from "@chakra-ui/react";
-import {HamburgerIcon} from "@chakra-ui/icons";
-import { Menu, MenuButton, MenuList, MenuItem, IconButton, Link } from "@chakra-ui/react";
 
+import { Text, Textarea, Center, Stack } from "@chakra-ui/react"
+
+import {HamburgerIcon} from "@chakra-ui/icons"
+import { Menu, MenuButton, MenuList, MenuItem, IconButton, Link, Button } from "@chakra-ui/react"
+
+import theme from "./Font.jsx"
 
 export default function App() {
   return (
-    <ChakraProvider>
+    <ChakraProvider theme={theme}>
       <Menu>
-        <MenuButton as={IconButton} icon={<HamburgerIcon />} variant={"outline"}></MenuButton>
+        <MenuButton mt={"1rem"} ml={"1rem"} as={IconButton} icon={<HamburgerIcon />} variant={"outline"}></MenuButton>
         <MenuList>
           <Link href={"/"} _hover={{ textDecoration: "none" }}>
             <MenuItem>Вcе заметки</MenuItem>
@@ -24,12 +29,15 @@ export default function App() {
       </Menu>
       
       <Center mt="20px">
-        <Text fontSize={"xl"} mb={"2px"}>
+        <Text fontSize={"xl"} mb={"1rem"}>
           Новая заметка
         </Text>
       </Center>
       <Center>
-        <Textarea w="3xl" h="sm"/>
+        <Stack>
+          <Textarea w="3xl" h="sm"/>
+          <Button>Опубликовать</Button>
+        </Stack>
       </Center>
       
     </ChakraProvider>

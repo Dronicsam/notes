@@ -1,0 +1,10 @@
+.flexed {
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+}
+
+.list_el {
+    width: fit-content;
+    margin-right: 10rem;
+}
