@@ -9,3 +9,4 @@ objects
 refs
 venv
 HEAD
+/backend/notes.db
