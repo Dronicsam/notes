@@ -10,6 +10,8 @@ import { HamburgerIcon } from "@chakra-ui/icons"
 import { Menu, MenuButton, MenuList, MenuItem, Link, IconButton } from "@chakra-ui/react"
 import { Button } from "@chakra-ui/react";
 
+import { NavLink } from "react-router-dom";
+
 import theme from "./Font.jsx"
 
 import Notes from "./Get_notes.jsx"

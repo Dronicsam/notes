@@ -3,6 +3,7 @@ import Note from "./components/Note";
 import Login from "./components/Login.jsx";
 import Index from "./components/Index.jsx";
 import Register from "./components/register.jsx";
+import Test from "./components/test.jsx"
 
 
 
@@ -20,6 +21,9 @@ let component
       break
     case "/register":
       component = <Register />
+      break
+    case "/test":
+      component = <Test />
       break
 }
 root.render(component);
