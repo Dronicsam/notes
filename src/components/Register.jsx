@@ -5,7 +5,7 @@ import {ChakraProvider} from '@chakra-ui/react'
 
 import { Center, Stack } from "@chakra-ui/react"
 
-import HookForm from "./Hookform.jsx"
+import RegisterHook from "./RegisterHook.jsx";
 
 import { HamburgerIcon } from "@chakra-ui/icons"
 import { Menu, MenuButton, MenuList, MenuItem, IconButton, Link } from "@chakra-ui/react"
@@ -31,7 +31,7 @@ export default function App() {
             </Menu>
             <Center marginTop={"5rem"}>
                 <Stack>
-                    <HookForm />
+                    <RegisterHook />
                 </Stack>
             </Center>
         </ChakraProvider>

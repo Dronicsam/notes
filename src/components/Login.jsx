@@ -4,6 +4,7 @@ import * as React from 'react'
 import {ChakraProvider} from '@chakra-ui/react'
 
 import { Text, Center, Stack } from "@chakra-ui/react"
+import { Highlight } from "@chakra-ui/react";
 
 import { Input } from '@chakra-ui/react'
 import { Button } from "@chakra-ui/react"
@@ -26,7 +27,11 @@ export default function App() {
                         <MenuItem>Написать заметку</MenuItem>
                     </Link>
                     <Link href={"login"} _hover={{ textDecoration: "none" }}>
-                        <MenuItem>Войти</MenuItem>
+                        <MenuItem>
+                            <Highlight query='Войти' styles={{ px: '2', py: '1', rounded: 'full', bg: 'teal.100'}}>
+                                Войти
+                            </Highlight>
+                        </MenuItem>
                     </Link>
                 </MenuList>
             </Menu>

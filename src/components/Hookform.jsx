@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form'
 
-import { Input } from '@chakra-ui/react'
+import { Input, Textarea } from '@chakra-ui/react'
 import { Button } from "@chakra-ui/react"
 
 import { FormControl, FormLabel, FormErrorMessage } from '@chakra-ui/react'
@@ -8,33 +8,40 @@ import api from "../api.js"
 
 
 
-export default function HookForm() {
+export default function Hookform() {
     const {
         handleSubmit,
         register,
         formState: { errors, isSubmitting },
     } = useForm()
+    
+    function getRandomInt(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+    
     function onSubmit(values) {
         return new Promise((resolve) => {
             setTimeout(() => {
                 const str_data = JSON.stringify(values, null)
                 const data = JSON.parse(str_data)
-                api.post("/register_complete", {
-                    "user_id": data.phonenumber-10,
-                    "name": data.name,
-                    "second_name": data.second_name,
-                    "third_name": data.third_name,
-                    "phonenumber": data.phonenumber,
-                    "position": data.position
+                api.post("/upload_note", {
+                    "user_id": getRandomInt(1, 999999),
+                    "note_name": data.note_name,
+                    "text": String(data.text),
+                    "date": String(data.date),
+                    "author": data.note_name,
+                    "was_checked": true
                 }).then(function (response) {
-                    const cur_res = response.data.detail
-                    console.log(cur_res);
-                    if (cur_res == "User exists") {
-                        alert("Пользователь уже существует :(")
-                    }else {
-                        window.alert("Вы успешно зарегистрованы! Теперь вы можете войти в сервис.");
-                        window.location.href='/login';
-                    }
+//                    const cur_res = response.data
+//                    console.log(cur_res);
+//                    if (cur_res == "User exists") {
+//                        alert("Пользователь уже существует :(")
+//                    }else {
+                        window.alert("Заметка опубликована");
+                        window.location.href='/';
+                    
                 }).catch(function (error) {
                     console.log(error);
                 });
@@ -48,57 +55,33 @@ export default function HookForm() {
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <FormControl>
-                <FormLabel>Фамилия</FormLabel>
+                <FormLabel>Название</FormLabel>
                 <Input
-                    id={"second_name"}
-                    placeholder={"Петров"}
-                    {...register('second_name', {
-                        required: 'Это поле обязательно!',
-                        minLength: { value: 2, message: 'Минимальная длина слова - 2' },
+                    id={"note_name"}
+                    placeholder={"Моя заметка"}
+                    {...register('note_name', {
+                        required: 'Это поле обязательно!'
                     })}
                 />
-                <FormLabel mt={"1rem"}>Имя</FormLabel>
-                <Input
-                    id='name'
-                    placeholder='Петр'
-                    {...register('name', {
+                <FormLabel mt={"1rem"}>Текст заметки</FormLabel>
+                <Textarea
+                    w="2xl" h="xs"
+                    id={'text'}
+                    placeholder='Текст вашей заметки будет написан тут :^)'
+                    {...register('text', {
                         required: 'Это поле обязательно!',
-                        minLength: { value: 2, message: 'Минимальная длина слова - 2' },
+                        minLength: { value: 2, message: 'Минимальная длина заметки - 2' },
                     })}
-                />
-                <FormErrorMessage>
-                    {errors.name && errors.name.message}
-                </FormErrorMessage>
-                <FormLabel mt={"1rem"}>Отчество</FormLabel>
-                <Input
-                    id={"third_name"}
-                    placeholder={"Петрович"}
-                    {...register('third_name', {
-                        minLength: { value: 2, message: 'Минимальная длина слова - 2' },
-                    })}
+                
                 />
                 <FormErrorMessage>
                     {errors.name && errors.name.message}
                 </FormErrorMessage>
-                <FormLabel mt={"1rem"}>Номер телефона</FormLabel>
+                <FormLabel mt={"1rem"}>Дата</FormLabel>
                 <Input
-                    type={"tel"}
-                    id={"phone"}
-                    placeholder={"8 999 555 33 22"}
-                    {...register('phonenumber', {
-                        required: 'Это поле обязательно!',
-                        minLength: { value: 2, message: 'Минимальная длина слова - 2' },
-                    })}
-                />
-                <FormErrorMessage>
-                    {errors.name && errors.name.message}
-                </FormErrorMessage>
-                <FormLabel mt={"1rem"}>Должность</FormLabel>
-                <Input
-                    id={"spec"}
-                    placeholder={"Инженер"}
-                    {...register('position', {
-                        required: 'Это поле обязательно!',
+                    id={"date"}
+                    type={"date"}
+                    {...register('date', {
                         minLength: { value: 2, message: 'Минимальная длина слова - 2' },
                     })}
                 />
@@ -106,7 +89,7 @@ export default function HookForm() {
                     {errors.name && errors.name.message}
                 </FormErrorMessage>
             </FormControl>
-            <Button mt={4} isLoading={isSubmitting} type={"submit"} _hover={{ bg: "green", color: "white"}}> Зарегистрироваться </Button>
+            <Button mt={4} isLoading={isSubmitting} type={"submit"} _hover={{ bg: "green", color: "white"}}> Написать заметку </Button>
         </form>
         )
 }

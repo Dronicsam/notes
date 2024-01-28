@@ -8,6 +8,7 @@ from pydantic import BaseModel
 from database import LocalSession, engine
 import models
 from sqlalchemy import exc
+from fastapi.responses import RedirectResponse
 
 # Модули middleware
 from fastapi.middleware.cors import CORSMiddleware
@@ -17,7 +18,6 @@ from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
 
 origins = [
-    "http://localhost:3000",
     "http://localhost:1234/register"
 ]
 
@@ -69,6 +69,11 @@ def get_db():
 db_dependency = Annotated[Session, Depends(get_db)]
 
 models.Base.metadata.create_all(bind=engine)
+
+
+@app.get("/")
+def docs():
+    return RedirectResponse("http://127.0.0.1:8000/docs")
 
 
 @app.post("/upload_note", response_model=NoteModel)

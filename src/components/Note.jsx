@@ -11,6 +11,8 @@ import { Menu, MenuButton, MenuList, MenuItem, IconButton, Link, Button } from "
 
 import theme from "./Font.jsx"
 
+import Hookform from "./Hookform.jsx";
+
 export default function App() {
   return (
     <ChakraProvider theme={theme}>
@@ -39,12 +41,8 @@ export default function App() {
         </Text>
       </Center>
       <Center>
-        <Stack>
-          <Textarea w="3xl" h="sm"/>
-          <Button>Опубликовать</Button>
-        </Stack>
+        <Hookform />
       </Center>
-
     </ChakraProvider>
     )
 }

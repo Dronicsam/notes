@@ -1,4 +1,10 @@
 .DS_Store
 .idea
 .parcel-cache
-
+dist
+hooks
+info
+node_modules
+objects
+refs
+venv

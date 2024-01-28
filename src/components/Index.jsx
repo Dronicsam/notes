@@ -3,14 +3,12 @@
 import * as React from 'react'
 import { ChakraProvider } from '@chakra-ui/react'
 
-import { Text, Center } from "@chakra-ui/react"
-import { Box } from "@chakra-ui/react"
+import { Text, Center, Box } from "@chakra-ui/react"
+import { Highlight } from '@chakra-ui/react'
 
 import { HamburgerIcon } from "@chakra-ui/icons"
 import { Menu, MenuButton, MenuList, MenuItem, Link, IconButton } from "@chakra-ui/react"
 import { Button } from "@chakra-ui/react";
-
-import { NavLink } from "react-router-dom";
 
 import theme from "./Font.jsx"
 
@@ -25,7 +23,11 @@ export default function App() {
                     <MenuButton mt={"1rem"} ml={"1rem"} as={ IconButton } icon={<HamburgerIcon />} variant={"outline"}></MenuButton>
                     <MenuList>
                         <Link href={"/"} _hover={{ textDecoration: "none" }}>
-                            <MenuItem>Вcе заметки</MenuItem>
+                            <MenuItem>
+                                <Highlight query='Все заметки' styles={{ px: '2', py: '1', rounded: 'full', bg: 'teal.100'}}>
+                                    Все заметки
+                                </Highlight>
+                            </MenuItem>
                         </Link>
                         <Link href={"/note"} _hover={{ textDecoration: "none" }}>
                             <MenuItem>Написать заметку</MenuItem>

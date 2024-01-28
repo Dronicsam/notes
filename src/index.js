@@ -2,7 +2,7 @@ import { createRoot } from "react-dom/client";
 import Note from "./components/Note";
 import Login from "./components/Login.jsx";
 import Index from "./components/Index.jsx";
-import Register from "./components/register.jsx";
+import Register from "./components/Register.jsx";
 import Test from "./components/test.jsx"
 
 
