@@ -35,7 +35,7 @@ app.add_middleware(
 
 
 class RegisterBase(BaseModel):
-    user_id: int
+    user_id: str
     login: str
     hashed_pass: str
     name: str
@@ -100,7 +100,7 @@ async def create_user(data: RegisterBase, db: db_dependency):
         db.refresh(db_upload)
         return db_upload
     except exc.IntegrityError:
-        raise HTTPException(status_code=200, detail="User exists")
+        raise HTTPException(status_code=409, detail="User exists")
     
 
 

@@ -9,12 +9,12 @@ import { PhoneInput } from 'react-international-phone';
 
 import api from "../api.js"
 
-import bcrypt from "bcrypt"
-
 import libphonenumber from 'google-libphonenumber';
 
-export default function RegisterHook() {
+import {v4 as uuidv4} from 'uuid';
+import * as bcrypt from 'bcryptjs'
 
+export default function RegisterHook() {
     const {
         handleSubmit,
         register,
@@ -25,11 +25,14 @@ export default function RegisterHook() {
             setTimeout(() => {
                 const str_data = JSON.stringify(values, null)
                 const data = JSON.parse(str_data)
-                const hash = bcrypt.hash(data.password, 13)
+                
+                const hashed_password = bcrypt.hashSync(data.password, 13)
+                const user_uuid = uuidv4()
+                console.log(phone)
                 api.post("/register_complete", {
-                    "user_id": data.phonenumber-10,
+                    "user_id": user_uuid,
                     "login": data.login,
-                    "hashed_pass": hash,
+                    "hashed_pass": String(hashed_password),
                     "name": data.name,
                     "second_name": data.second_name,
                     "third_name": data.third_name,
@@ -47,7 +50,7 @@ export default function RegisterHook() {
                 }).catch(function (error) {
                     console.log(error);
                 });
-                resolve();``
+                resolve();
             }, 1000)
         })
     }
@@ -68,7 +71,7 @@ export default function RegisterHook() {
             <FormControl>
                 <FormLabel>Логин</FormLabel>
                 <Input
-                    isRequired={"true"}
+                    isRequired={true}
                     id={"login"}
                     placeholder={"Логин"}
                     {...register('login', {
@@ -78,7 +81,7 @@ export default function RegisterHook() {
                 />
                 <FormLabel mt={"0.5rem"}>Пароль</FormLabel>
                 <Input
-                    isRequired={"true"}
+                    isRequired={true}
                     id={"password"}
                     placeholder={"Пароль"}
                     {...register('password', {
@@ -88,7 +91,7 @@ export default function RegisterHook() {
                 />
                 <FormLabel mt={"0.5rem"}>Фамилия</FormLabel>
                 <Input
-                    isRequired={"true"}
+                    isRequired={true}
                     id={"second_name"}
                     placeholder={"Петров"}
                     {...register('second_name', {
@@ -98,7 +101,7 @@ export default function RegisterHook() {
                 />
                 <FormLabel mt={"0.5rem"}>Имя</FormLabel>
                 <Input
-                    isRequired={"true"}
+                    isRequired={true}
                     id='name'
                     placeholder='Петр'
                     {...register('name', {
@@ -108,7 +111,7 @@ export default function RegisterHook() {
                 />
                 <FormLabel mt={"0.5rem"}>Отчество</FormLabel>
                 <Input
-                    isRequired={"true"}
+                    isRequired={true}
                     id={"third_name"}
                     placeholder={"Петрович"}
                     {...register('third_name', {
@@ -125,7 +128,7 @@ export default function RegisterHook() {
                 </Box>
                 <FormLabel mt={"0.5rem"}>Должность</FormLabel>
                 <Input
-                    isRequired={"true"}
+                    isRequired={true}
                     id={"spec"}
                     placeholder={"Инженер"}
                     {...register('position', {
