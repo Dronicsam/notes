@@ -10,3 +10,4 @@ refs
 venv
 HEAD
 /backend/notes.db
+/backend/__pycache__

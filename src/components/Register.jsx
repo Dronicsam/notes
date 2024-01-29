@@ -29,7 +29,7 @@ export default function App() {
                     </Link>
                 </MenuList>
             </Menu>
-            <Center marginTop={"5rem"}>
+            <Center marginTop={"2rem"}>
                 <Stack>
                     <RegisterHook />
                 </Stack>

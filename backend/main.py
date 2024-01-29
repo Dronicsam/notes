@@ -5,10 +5,12 @@ from typing import Annotated, List
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
+from pydantic_extra_types.phone_numbers import PhoneNumber
 from database import LocalSession, engine
 import models
 from sqlalchemy import exc
 from fastapi.responses import RedirectResponse
+import auth
 
 # Модули middleware
 from fastapi.middleware.cors import CORSMiddleware
@@ -16,6 +18,8 @@ from fastapi.middleware.cors import CORSMiddleware
 # Код
 
 app = FastAPI()
+
+app.include_router(auth.router)
 
 origins = [
     "http://localhost:1234/register"
@@ -32,10 +36,12 @@ app.add_middleware(
 
 class RegisterBase(BaseModel):
     user_id: int
+    login: str
+    hashed_pass: str
     name: str
     second_name: str
     third_name: str
-    phonenumber: int
+    phonenumber: PhoneNumber
     position: str
 
 
@@ -114,7 +120,7 @@ async def delete(db: db_dependency):
     sql = "DROP TABLE IF EXISTS Users;"
     db.execute(text(sql))
     models.Base.metadata.create_all(bind=engine)
-    raise HTTPException(status_code=200, detail="123")
+    raise HTTPException(state_code=200, detail="123")
 
 
 @app.get('/delete_notes_table')

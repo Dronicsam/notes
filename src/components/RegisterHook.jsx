@@ -21,10 +21,12 @@ export default function RegisterHook() {
                 const data = JSON.parse(str_data)
                 api.post("/register_complete", {
                     "user_id": data.phonenumber-10,
+                    "login": data.login,
+                    "hashed_pass": data.password,
                     "name": data.name,
                     "second_name": data.second_name,
                     "third_name": data.third_name,
-                    "phonenumber": data.phonenumber,
+                    "phonenumber": String(data.phonenumber),
                     "position": data.position
                 }).then(function (response) {
                     const cur_res = response.data.detail
@@ -48,7 +50,25 @@ export default function RegisterHook() {
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <FormControl>
-                <FormLabel>Фамилия</FormLabel>
+                <FormLabel>Логин</FormLabel>
+                <Input
+                    id={"login"}
+                    placeholder={"Логин"}
+                    {...register('login', {
+                        required: 'Это поле обязательно!',
+                        minLength: { value: 2, message: 'Минимальная длина слова - 2' },
+                    })}
+                />
+                <FormLabel mt={"0.5rem"}>Пароль</FormLabel>
+                <Input
+                    id={"password"}
+                    placeholder={"Пароль"}
+                    {...register('password', {
+                        required: 'Это поле обязательно!',
+                        minLength: { value: 2, message: 'Минимальная длина слова - 2' },
+                    })}
+                />
+                <FormLabel mt={"0.5rem"}>Фамилия</FormLabel>
                 <Input
                     id={"second_name"}
                     placeholder={"Петров"}
@@ -57,7 +77,7 @@ export default function RegisterHook() {
                         minLength: { value: 2, message: 'Минимальная длина слова - 2' },
                     })}
                 />
-                <FormLabel mt={"1rem"}>Имя</FormLabel>
+                <FormLabel mt={"0.5rem"}>Имя</FormLabel>
                 <Input
                     id='name'
                     placeholder='Петр'
@@ -66,10 +86,7 @@ export default function RegisterHook() {
                         minLength: { value: 2, message: 'Минимальная длина слова - 2' },
                     })}
                 />
-                <FormErrorMessage>
-                    {errors.name && errors.name.message}
-                </FormErrorMessage>
-                <FormLabel mt={"1rem"}>Отчество</FormLabel>
+                <FormLabel mt={"0.5rem"}>Отчество</FormLabel>
                 <Input
                     id={"third_name"}
                     placeholder={"Петрович"}
@@ -77,12 +94,9 @@ export default function RegisterHook() {
                         minLength: { value: 2, message: 'Минимальная длина слова - 2' },
                     })}
                 />
-                <FormErrorMessage>
-                    {errors.name && errors.name.message}
-                </FormErrorMessage>
-                <FormLabel mt={"1rem"}>Номер телефона</FormLabel>
+                <FormLabel mt={"0.5rem"}>Номер телефона</FormLabel>
                 <Input
-                    type={"tel"}
+                    // type={"tel"}
                     id={"phone"}
                     placeholder={"8 999 555 33 22"}
                     {...register('phonenumber', {
@@ -90,10 +104,7 @@ export default function RegisterHook() {
                         minLength: { value: 2, message: 'Минимальная длина слова - 2' },
                     })}
                 />
-                <FormErrorMessage>
-                    {errors.name && errors.name.message}
-                </FormErrorMessage>
-                <FormLabel mt={"1rem"}>Должность</FormLabel>
+                <FormLabel mt={"0.5rem"}>Должность</FormLabel>
                 <Input
                     id={"spec"}
                     placeholder={"Инженер"}
