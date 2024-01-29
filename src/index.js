@@ -3,7 +3,7 @@ import Note from "./components/Note";
 import Login from "./components/Login.jsx";
 import Index from "./components/Index.jsx";
 import Register from "./components/Register.jsx";
-import Test from "./components/test.jsx"
+import Error from "./components/404.jsx";
 
 
 
@@ -22,8 +22,7 @@ let component
     case "/register":
       component = <Register />
       break
-    case "/test":
-      component = <Test />
-      break
+    default:
+      component = <Error />
 }
 root.render(component);

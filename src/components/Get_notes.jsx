@@ -1,5 +1,4 @@
 import api from "../api.js";
-import * as React from 'react';
 import { useEffect, useState } from "react";
 import "../style/style.css"
 

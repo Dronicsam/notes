@@ -1,6 +1,5 @@
 // Подключение основных модулей
 
-import * as React from 'react'
 import { ChakraProvider } from '@chakra-ui/react'
 
 import { Text, Center, Box } from "@chakra-ui/react"

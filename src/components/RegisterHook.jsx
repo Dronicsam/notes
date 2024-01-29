@@ -1,14 +1,20 @@
 import { useForm } from 'react-hook-form'
+import { useState } from 'react';
 
-import { Input } from '@chakra-ui/react'
+import { Input, Box } from '@chakra-ui/react'
 import { Button } from "@chakra-ui/react"
-import validator from 'validator' 
 import { FormControl, FormLabel, FormErrorMessage } from '@chakra-ui/react'
+
+import { PhoneInput } from 'react-international-phone';
+
 import api from "../api.js"
 
+import bcrypt from "bcrypt"
 
+import libphonenumber from 'google-libphonenumber';
 
 export default function RegisterHook() {
+
     const {
         handleSubmit,
         register,
@@ -19,14 +25,15 @@ export default function RegisterHook() {
             setTimeout(() => {
                 const str_data = JSON.stringify(values, null)
                 const data = JSON.parse(str_data)
+                const hash = bcrypt.hash(data.password, 13)
                 api.post("/register_complete", {
                     "user_id": data.phonenumber-10,
                     "login": data.login,
-                    "hashed_pass": data.password,
+                    "hashed_pass": hash,
                     "name": data.name,
                     "second_name": data.second_name,
                     "third_name": data.third_name,
-                    "phonenumber": String(data.phonenumber),
+                    "phonenumber": String(phone),
                     "position": data.position
                 }).then(function (response) {
                     const cur_res = response.data.detail
@@ -45,13 +52,23 @@ export default function RegisterHook() {
         })
     }
 
-
+    const [phone, setPhone] = useState('');
+    const phoneUtil = libphonenumber.PhoneNumberUtil.getInstance();
+    const isPhoneValid = (phone) => {
+        try {
+            return phoneUtil.isValidNumber(phoneUtil.parseAndKeepRawInput(phone));
+        } catch (error) {
+            return false;
+        }
+    };
+    const isValid = isPhoneValid(phone);
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <FormControl>
                 <FormLabel>Логин</FormLabel>
                 <Input
+                    isRequired={"true"}
                     id={"login"}
                     placeholder={"Логин"}
                     {...register('login', {
@@ -61,6 +78,7 @@ export default function RegisterHook() {
                 />
                 <FormLabel mt={"0.5rem"}>Пароль</FormLabel>
                 <Input
+                    isRequired={"true"}
                     id={"password"}
                     placeholder={"Пароль"}
                     {...register('password', {
@@ -70,6 +88,7 @@ export default function RegisterHook() {
                 />
                 <FormLabel mt={"0.5rem"}>Фамилия</FormLabel>
                 <Input
+                    isRequired={"true"}
                     id={"second_name"}
                     placeholder={"Петров"}
                     {...register('second_name', {
@@ -79,6 +98,7 @@ export default function RegisterHook() {
                 />
                 <FormLabel mt={"0.5rem"}>Имя</FormLabel>
                 <Input
+                    isRequired={"true"}
                     id='name'
                     placeholder='Петр'
                     {...register('name', {
@@ -88,6 +108,7 @@ export default function RegisterHook() {
                 />
                 <FormLabel mt={"0.5rem"}>Отчество</FormLabel>
                 <Input
+                    isRequired={"true"}
                     id={"third_name"}
                     placeholder={"Петрович"}
                     {...register('third_name', {
@@ -95,17 +116,16 @@ export default function RegisterHook() {
                     })}
                 />
                 <FormLabel mt={"0.5rem"}>Номер телефона</FormLabel>
-                <Input
-                    // ppe={"tel"}
-                    id={"phone"}
-                    placeholder={"8 999 555 33 22"}
-                    {...register('phonenumber', {
-                        required: 'Это поле обязательно!',
-                        minLength: { value: 2, message: 'Минимальная длина слова - 2' },
-                    })}
-                />
+                <Box m={0} borderWidth='1px' borderRadius='lg' height={"min"} display={"flex"}>
+                    <PhoneInput
+                        defaultCountry="ru"
+                        value={phone}
+                        onChange={(phone) => setPhone(phone)}
+                    />
+                </Box>
                 <FormLabel mt={"0.5rem"}>Должность</FormLabel>
                 <Input
+                    isRequired={"true"}
                     id={"spec"}
                     placeholder={"Инженер"}
                     {...register('position', {
@@ -117,7 +137,7 @@ export default function RegisterHook() {
                     {errors.name && errors.name.message}
                 </FormErrorMessage>
             </FormControl>
-            <Button mt={4} isLoading={isSubmitting} type={"submit"} _hover={{ bg: "green", color: "white"}}> Зарегистрироваться </Button>
+            <Button isDisabled={!isValid} mt={4} isLoading={isSubmitting} type={"submit"} _hover={{ bg: "green", color: "white"}}> Зарегистрироваться </Button>
         </form>
         )
 }

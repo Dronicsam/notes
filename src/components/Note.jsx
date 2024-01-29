@@ -1,13 +1,12 @@
 // Основные модули
 
-import * as React from 'react'
 import { ChakraProvider } from '@chakra-ui/react'
 
-import { Text, Textarea, Center, Stack } from "@chakra-ui/react"
+import { Text, Center } from "@chakra-ui/react"
 import { Highlight } from '@chakra-ui/react'
 
 import {HamburgerIcon} from "@chakra-ui/icons"
-import { Menu, MenuButton, MenuList, MenuItem, IconButton, Link, Button } from "@chakra-ui/react"
+import { Menu, MenuButton, MenuList, MenuItem, IconButton, Link } from "@chakra-ui/react"
 
 import theme from "./Font.jsx"
 
