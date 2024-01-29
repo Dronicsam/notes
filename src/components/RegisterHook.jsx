@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form'
 
 import { Input } from '@chakra-ui/react'
 import { Button } from "@chakra-ui/react"
-
+import validator from 'validator' 
 import { FormControl, FormLabel, FormErrorMessage } from '@chakra-ui/react'
 import api from "../api.js"
 
@@ -96,7 +96,7 @@ export default function RegisterHook() {
                 />
                 <FormLabel mt={"0.5rem"}>Номер телефона</FormLabel>
                 <Input
-                    // type={"tel"}
+                    // ppe={"tel"}
                     id={"phone"}
                     placeholder={"8 999 555 33 22"}
                     {...register('phonenumber', {

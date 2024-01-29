@@ -101,6 +101,7 @@ async def create_user(data: RegisterBase, db: db_dependency):
         return db_upload
     except exc.IntegrityError:
         raise HTTPException(status_code=200, detail="User exists")
+    
 
 
 @app.get("/get_users", response_model=List[RegisterModel])
