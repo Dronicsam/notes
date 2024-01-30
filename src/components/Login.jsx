@@ -97,6 +97,11 @@ export default function App() {
                     <Button mt={4} isLoading={isSubmitting} type={"submit"} _hover={{ bg: "green", color: "white"}}> Войти </Button>
                 </form>
             </Center>
+            <Center mt={"1rem"}>
+                <Link href={"/register"}>
+                    Нет учётной записи?
+                </Link>
+            </Center>
         </ChakraProvider>
         )
 }
