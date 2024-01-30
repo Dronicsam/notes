@@ -1,4 +1,5 @@
 import { useForm } from 'react-hook-form'
+import { useState, useEffect } from 'react';
 
 import { Input, Textarea } from '@chakra-ui/react'
 import { Button } from "@chakra-ui/react"
@@ -7,17 +8,33 @@ import { FormControl, FormLabel, FormErrorMessage } from '@chakra-ui/react'
 import api from "../api.js"
 import { Tooltip } from '@chakra-ui/react'
 
-import User_check from "./User_check.js";
 import {v4 as uuidv4} from 'uuid';
 
 export default function Hookform() {
+    
     let UserIn = localStorage.getItem("access_token")
     if (!UserIn) {
         UserIn = false;
         var label_text = "Публикация заметок доступна только пользователям с аккаунтом"
     }
     
-    var user_data = User_check(UserIn)
+    var [user_data, setData] = useState([]);
+    useEffect(() => {
+        getData();
+        }, []);
+    const getData = (props="ASC") => {
+        api.get("/users/me", {
+            headers: {
+                'Authorization': 'Bearer ' + UserIn 
+            }}, )
+        .then(
+            (res) =>  setData(res.data)
+            )
+        .catch(
+            (error) => setData(error["message"])
+            )
+    }
+    
     const {
         handleSubmit,
         register,
@@ -26,7 +43,6 @@ export default function Hookform() {
     function onSubmit(values) {
         return new Promise((resolve) => {
             setTimeout(() => {
-                
                 const str_data = JSON.stringify(values, null)
                 const data = JSON.parse(str_data)
                 const note_uuid = uuidv4()

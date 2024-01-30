@@ -140,6 +140,12 @@ async def get_notes(db: db_dependency, skip: int = 0, limit: int = 100):
     return notes
 
 
+@app.get("/get_user_notes", response_model=List[NoteModel])
+async def get_notes(db: db_dependency, user_id: str):
+    notes = db.query(models.Notes).where(models.Notes.user_id == user_id)
+    return notes
+
+
 @app.get('/delete_users_table')
 async def delete(db: db_dependency):
     sql = "DROP TABLE IF EXISTS Users;"
@@ -249,15 +255,18 @@ async def l_for_access_token(
     return Token(access_token=access_token, token_type="bearer")
 
 
-@app.get("/users/me/", response_model=User)
+@app.get("/users/me/")
 async def read_users_me(
         current_user: Annotated[User, Depends(get_current_active_user)]
 ):
-    return current_user
+    return {"first_name": current_user.name, "second_name": current_user.second_name, "third_name": current_user.third_name, "username": current_user.username, "user_id": current_user.user_id}
 
 
-# @app.get("/users/me/items/", response_model=User)
-# async def read_own_items(
-#         current_user: Annotated[User, Depends(get_current_active_user)]
-# ):
-#     return [{"item_id": "Foo", "owner": current_user}]
+@app.get("/users/me/items/")
+async def read_own_items(
+        current_user: Annotated[User, Depends(get_current_active_user)],
+        db: db_dependency
+):
+    user_id: str = current_user.user_id
+    notes = db.query(models.Notes).filter_by(user_id=user_id).all()
+    return notes
