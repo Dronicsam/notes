@@ -8,11 +8,11 @@ export default function GetNotes() {
         getNotes();
         }, []);
     const getNotes = (props="ASC") => {
-        api.get("/get_notes").then(
+        api.get("/get_notes")
+        .then(
             (res) =>  setNotes(res.data)
             )
     }
-    console.log(note)
     return (
         <ul className={"flexed"}>
             {note.map((item) => (

@@ -5,47 +5,60 @@ import { Button } from "@chakra-ui/react"
 
 import { FormControl, FormLabel, FormErrorMessage } from '@chakra-ui/react'
 import api from "../api.js"
+import { Tooltip } from '@chakra-ui/react'
 
-
+import User_check from "./User_check.js";
+import {v4 as uuidv4} from 'uuid';
 
 export default function Hookform() {
+    let UserIn = localStorage.getItem("access_token")
+    if (!UserIn) {
+        UserIn = false;
+        var label_text = "Публикация заметок доступна только пользователям с аккаунтом"
+    }
+    
+    var user_data = User_check(UserIn)
     const {
         handleSubmit,
         register,
         formState: { errors, isSubmitting },
     } = useForm()
-    
-    function getRandomInt(min, max) {
-        min = Math.ceil(min);
-        max = Math.floor(max);
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
-    
     function onSubmit(values) {
         return new Promise((resolve) => {
             setTimeout(() => {
+                
                 const str_data = JSON.stringify(values, null)
                 const data = JSON.parse(str_data)
-                api.post("/upload_note", {
-                    "user_id": getRandomInt(1, 999999),
+                const note_uuid = uuidv4()
+                let datalog = {
+                    "user_id": user_data.user_id,
+                    "note_id": note_uuid,
                     "note_name": data.note_name,
                     "text": String(data.text),
                     "date": String(data.date),
-                    "author": data.note_name,
-                    "was_checked": true
+                    "author": user_data.username,
+                    "was_checked": false
+                }
+                console.log(datalog)
+                api.post("/upload_note", {
+                    "user_id": datalog.user_id,
+                    "note_id": datalog.note_id,
+                    "note_name": datalog.note_name,
+                    "text": datalog.text,
+                    "date": datalog.date,
+                    "author": datalog.author,
+                    "was_checked": datalog.was_checked
+                }, {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
                 }).then(function (response) {
-//                    const cur_res = response.data
-//                    console.log(cur_res);
-//                    if (cur_res == "User exists") {
-//                        alert("Пользователь уже существует :(")
-//                    }else {
-                        window.alert("Заметка опубликована");
                         window.location.href='/';
-                    
                 }).catch(function (error) {
                     console.log(error);
+                    alert("Произошла ошибка")
                 });
-                resolve();``
+                resolve();
             }, 1000)
         })
     }
@@ -57,6 +70,7 @@ export default function Hookform() {
             <FormControl>
                 <FormLabel>Название</FormLabel>
                 <Input
+                    isRequired={true}
                     id={"note_name"}
                     placeholder={"Моя заметка"}
                     {...register('note_name', {
@@ -65,6 +79,7 @@ export default function Hookform() {
                 />
                 <FormLabel mt={"1rem"}>Текст заметки</FormLabel>
                 <Textarea
+                    isRequired={true}
                     w="2xl" h="xs"
                     id={'text'}
                     placeholder='Текст вашей заметки будет написан тут :^)'
@@ -79,6 +94,8 @@ export default function Hookform() {
                 </FormErrorMessage>
                 <FormLabel mt={"1rem"}>Дата</FormLabel>
                 <Input
+                    width={"min"}
+                    isRequired={true}
                     id={"date"}
                     type={"date"}
                     {...register('date', {
@@ -89,7 +106,9 @@ export default function Hookform() {
                     {errors.name && errors.name.message}
                 </FormErrorMessage>
             </FormControl>
-            <Button mt={4} isLoading={isSubmitting} type={"submit"} _hover={{ bg: "green", color: "white"}}> Написать заметку </Button>
+            <Tooltip label={label_text}>
+                <Button isDisabled={!UserIn} mt={4} isLoading={isSubmitting} type={"submit"} _hover={{ bg: "green", color: "white"}}> Написать заметку </Button>
+            </Tooltip>
         </form>
         )
 }

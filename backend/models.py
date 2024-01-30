@@ -18,7 +18,8 @@ class Users(Base):
 class Notes(Base):
     __tablename__ = "notes"
     
-    user_id = Column(String, primary_key=True)
+    user_id = Column(String, unique=False)
+    note_id = Column(String, primary_key=True)
     note_name = Column(String)
     text = Column(String)
     date = Column(String)

@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 import { Input, Box } from '@chakra-ui/react'
 import { Button } from "@chakra-ui/react"
-import { FormControl, FormLabel, FormErrorMessage } from '@chakra-ui/react'
+import { FormControl, FormLabel, FormErrorMessage, FormHelperText } from '@chakra-ui/react'
 
 import { PhoneInput } from 'react-international-phone';
 
@@ -28,7 +28,6 @@ export default function RegisterHook() {
                 
                 const hashed_password = bcrypt.hashSync(data.password, 13)
                 const user_uuid = uuidv4()
-                console.log(phone)
                 api.post("/register_complete", {
                     "user_id": user_uuid,
                     "username": data.username,
@@ -87,6 +86,7 @@ export default function RegisterHook() {
                         minLength: { value: 6, message: 'Минимальная величина пароля - 6' },
                     })}
                 />
+                <FormHelperText>Минимальная длина пароля - 6</FormHelperText>
                 <FormLabel mt={"0.5rem"}>Фамилия</FormLabel>
                 <Input
                     isRequired={true}

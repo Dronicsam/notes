@@ -3,13 +3,11 @@
 import {ChakraProvider, FormControl, FormErrorMessage, FormLabel} from '@chakra-ui/react'
 
 import { Center } from "@chakra-ui/react"
-import { Highlight } from "@chakra-ui/react";
 
 import { Input } from '@chakra-ui/react'
-import { Button } from "@chakra-ui/react"
+import { Button, Link } from "@chakra-ui/react"
 
-import { HamburgerIcon } from "@chakra-ui/icons"
-import { Menu, MenuButton, MenuList, MenuItem, IconButton, Link } from "@chakra-ui/react"
+import Menu from "./Menu.jsx"
 
 import theme from "./Font.jsx"
 import api from "../api.js"
@@ -37,11 +35,19 @@ export default function App() {
                         'Content-Type': 'application/x-www-form-urlencoded'
                     }
                 }).then(function (response) {
-                    window.alert("Вы успешно вошли в сервис!");
+                    localStorage.setItem('access_token', response.data["access_token"])
                     window.location.href='/';
                 }).catch(function (error) {
                     console.log(error);
-                    alert("Произошла ошибка")
+                    let message = String(error);
+                    if (String(error).includes("401")) {
+                        message = "Вход не выполнен. Данные не верны"
+                    }else {
+                        message = "Произошла ошибка"
+                    }
+                    
+                    alert(message)
+                    
                 });
                 resolve();
                 }, 1000)
@@ -49,24 +55,9 @@ export default function App() {
     }
     return (
         <ChakraProvider theme={theme}>
-            <Menu>
-                <MenuButton mt={"1rem"} ml={"1rem"} as={ IconButton } icon={<HamburgerIcon />} variant={"outline"}></MenuButton>
-                <MenuList>
-                    <Link href={"/"} _hover={{ textDecoration: "none" }}>
-                        <MenuItem>Вcе заметки</MenuItem>
-                    </Link>
-                    <Link href={"/note"} _hover={{ textDecoration: "none" }}>
-                        <MenuItem>Написать заметку</MenuItem>
-                    </Link>
-                    <Link href={"login"} _hover={{ textDecoration: "none" }}>
-                        <MenuItem>
-                            <Highlight query='Войти' styles={{ px: '2', py: '1', rounded: 'full', bg: 'teal.100'}}>
-                                Войти
-                            </Highlight>
-                        </MenuItem>
-                    </Link>
-                </MenuList>
-            </Menu>
+            
+            <Menu />
+            
             <Center marginTop={"5rem"}>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <FormControl>

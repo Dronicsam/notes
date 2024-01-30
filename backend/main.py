@@ -23,10 +23,10 @@ from fastapi.middleware.cors import CORSMiddleware
 # Код
 
 # openssl rand -hex 32
-SECRET_KEY = "SECRET_KEY"
+SECRET_KEY = "3837dc4c28200536408d8b5079cf0a84bdef8cc695e2d4c7b36b657b6c717396"
 
 ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
+ACCESS_TOKEN_EXPIRE_MINUTES = 1440
 
 
 app = FastAPI()
@@ -74,7 +74,8 @@ class RegisterModel(RegisterBase):
 
 
 class NoteBase(BaseModel):
-    user_id: int
+    user_id: str
+    note_id: str
     note_name: str
     text: str
     date: str
@@ -255,8 +256,8 @@ async def read_users_me(
     return current_user
 
 
-@app.get("/users/me/items/")
-async def read_own_items(
-        current_user: Annotated[User, Depends(get_current_active_user)]
-):
-    return [{"item_id": "Foo", "owner": current_user.username}]
+# @app.get("/users/me/items/", response_model=User)
+# async def read_own_items(
+#         current_user: Annotated[User, Depends(get_current_active_user)]
+# ):
+#     return [{"item_id": "Foo", "owner": current_user}]

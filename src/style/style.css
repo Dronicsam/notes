@@ -1,7 +1,7 @@
 .flexed {
-    display: flex;
-    flex-direction: row;
     list-style: none;
+    overflow:hidden;
+    overflow-y:scroll;
 }
 
 .list_el {
