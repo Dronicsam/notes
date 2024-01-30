@@ -1,9 +1,8 @@
 // Основные модули
 
+import {ChakraProvider, FormControl, FormErrorMessage, FormLabel} from '@chakra-ui/react'
 
-import {ChakraProvider} from '@chakra-ui/react'
-
-import { Text, Center, Stack } from "@chakra-ui/react"
+import { Center } from "@chakra-ui/react"
 import { Highlight } from "@chakra-ui/react";
 
 import { Input } from '@chakra-ui/react'
@@ -13,8 +12,41 @@ import { HamburgerIcon } from "@chakra-ui/icons"
 import { Menu, MenuButton, MenuList, MenuItem, IconButton, Link } from "@chakra-ui/react"
 
 import theme from "./Font.jsx"
+import api from "../api.js"
+import {useForm} from "react-hook-form";
 
 export default function App() {
+    const {
+        handleSubmit,
+        register,
+        formState: { errors, isSubmitting },
+    } = useForm()
+    function onSubmit(values) {
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                const str_data = JSON.stringify(values, null)
+                const data = JSON.parse(str_data)
+                const form_data = new FormData()
+                form_data.append("username", data.username)
+                form_data.append("password", data.password)
+                api.post("/token", {
+                    "username": data.username,
+                    "password": data.password
+                },{
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                }).then(function (response) {
+                    window.alert("Вы успешно вошли в сервис!");
+                    window.location.href='/';
+                }).catch(function (error) {
+                    console.log(error);
+                    alert("Произошла ошибка")
+                });
+                resolve();
+                }, 1000)
+        })
+    }
     return (
         <ChakraProvider theme={theme}>
             <Menu>
@@ -36,19 +68,34 @@ export default function App() {
                 </MenuList>
             </Menu>
             <Center marginTop={"5rem"}>
-                <Stack>
-                    <Text fontSize={"3xl"} align={"center"}>
-                        Введите ваши данные
-                    </Text>
-                    <Input placeholder={"Ваш логин"} width={"30rem"}/>
-                    <Input placeholder={"Ваш пароль"} width={"30rem"}/>
-                    <Button _hover={{ bg: "green", color: "white"}}> Войти </Button>
-                    <Link href={"/register"}>
-                        <Text>
-                            Нет учётной записи?
-                        </Text>
-                    </Link>
-                </Stack>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <FormControl>
+                        <FormLabel>Логин</FormLabel>
+                        <Input
+                            isRequired={true}
+                            id={"username"}
+                            placeholder={"Логин"}
+                            {...register('username', {
+                                required: 'Это поле обязательно!',
+                                minLength: { value: 2, message: 'Минимальная длина слова - 2' },
+                            })}
+                        />
+                        <FormLabel mt={"0.5rem"}>Пароль</FormLabel>
+                        <Input
+                            isRequired={true}
+                            id={"password"}
+                            placeholder={"Пароль"}
+                            {...register('password', {
+                                required: 'Это поле обязательно!',
+                                minLength: { value: 2, message: 'Минимальная длина слова - 2' },
+                            })}
+                        />
+                        <FormErrorMessage>
+                            {errors.name && errors.name.message}
+                        </FormErrorMessage>
+                    </FormControl>
+                    <Button mt={4} isLoading={isSubmitting} type={"submit"} _hover={{ bg: "green", color: "white"}}> Войти </Button>
+                </form>
             </Center>
         </ChakraProvider>
         )

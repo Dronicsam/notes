@@ -1,12 +1,12 @@
 from database import Base
-from sqlalchemy import Integer, String, Boolean, Column
+from sqlalchemy import String, Boolean, Column
 
 
 class Users(Base):
     __tablename__ = "users"
     
     user_id = Column(String, primary_key=True)
-    login = Column(String, unique=True)
+    username = Column(String, unique=True)
     hashed_pass = Column(String)
     name = Column(String)
     second_name = Column(String)

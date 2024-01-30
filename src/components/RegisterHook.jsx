@@ -31,7 +31,7 @@ export default function RegisterHook() {
                 console.log(phone)
                 api.post("/register_complete", {
                     "user_id": user_uuid,
-                    "login": data.login,
+                    "username": data.username,
                     "hashed_pass": String(hashed_password),
                     "name": data.name,
                     "second_name": data.second_name,
@@ -39,16 +39,14 @@ export default function RegisterHook() {
                     "phonenumber": String(phone),
                     "position": data.position
                 }).then(function (response) {
-                    const cur_res = response.data.detail
-                    console.log(cur_res);
-                    if (cur_res == "User exists") {
-                        alert("Пользователь уже существует :(")
-                    }else {
-                        window.alert("Вы успешно зарегистрованы! Теперь вы можете войти в сервис.");
-                        window.location.href='/login';
-                    }
+                    window.alert("Вы успешно зарегистрованы! Теперь вы можете войти в сервис.");
+                    window.location.href='/login';
+                    
                 }).catch(function (error) {
-                    console.log(error);
+                    console.log(error["message"])
+                    if ( String(error["message"]).includes("409") ){
+                        alert("Пользователь уже существует")
+                    }
                 });
                 resolve();
             }, 1000)
@@ -72,11 +70,11 @@ export default function RegisterHook() {
                 <FormLabel>Логин</FormLabel>
                 <Input
                     isRequired={true}
-                    id={"login"}
+                    id={"username"}
                     placeholder={"Логин"}
-                    {...register('login', {
+                    {...register('username', {
                         required: 'Это поле обязательно!',
-                        minLength: { value: 2, message: 'Минимальная длина слова - 2' },
+                        minLength: { value: 2, message: 'Минимальная длина логина - 2' },
                     })}
                 />
                 <FormLabel mt={"0.5rem"}>Пароль</FormLabel>
@@ -86,7 +84,7 @@ export default function RegisterHook() {
                     placeholder={"Пароль"}
                     {...register('password', {
                         required: 'Это поле обязательно!',
-                        minLength: { value: 2, message: 'Минимальная длина слова - 2' },
+                        minLength: { value: 6, message: 'Минимальная величина пароля - 6' },
                     })}
                 />
                 <FormLabel mt={"0.5rem"}>Фамилия</FormLabel>
