@@ -10,7 +10,6 @@ h11==0.14.0
 idna==3.6
 passlib==1.7.4
 phonenumbers==8.13.29
-psycopg2==2.9.9
 psycopg2-binary==2.9.9
 pyasn1==0.5.1
 pycparser==2.21
