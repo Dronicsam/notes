@@ -106,8 +106,8 @@ export default function GetCheckedUserNotes() {
                         </ListItem>
                         ) )}
                 </UnorderedList>
-                <Text fontSize={"ml"} hidden={note.length !== 0}>Проверенных заметок нет</Text>
             </Box>
+            <Text fontSize={"ml"} hidden={note.length !== 0}>Проверенных заметок нет</Text>
         </ChakraProvider>
         )
 }
