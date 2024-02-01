@@ -8,7 +8,7 @@ export default function GetNotes() {
     useEffect(() => {
         getNotes();
         }, []);
-    const getNotes = (props="DSC") => {
+    const getNotes = (props="ASC") => {
         api.get("/get_notes")
         .then(
             (res) =>  setNotes(res.data)

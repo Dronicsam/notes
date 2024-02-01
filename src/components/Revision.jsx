@@ -25,7 +25,7 @@ export default function Revision() {
     useEffect(() => {
         getUsername();
         }, []);
-    const getUsername = (props="DSC") => {
+    const getUsername = (props="ASC") => {
         api.get("/users/me", {
             headers: {
                 'Authorization': 'Bearer ' + token 
@@ -44,7 +44,7 @@ export default function Revision() {
     useEffect(() => {
         getNotes();
         }, []);
-    const getNotes = (props="DSC") => {
+    const getNotes = (props="ASC") => {
         api.get("/get_notes")
         .then(
             (res) =>  setNotes(res.data)

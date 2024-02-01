@@ -24,7 +24,7 @@ export default function Menu() {
     useEffect(() => {
         getUsername();
         }, []);
-    const getUsername = (props="DSC") => {
+    const getUsername = (props="ASC") => {
         api.get("/users/me", {
             headers: {
                 'Authorization': 'Bearer ' + token 

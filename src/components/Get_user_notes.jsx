@@ -14,7 +14,7 @@ export default function GetUserNotes() {
         getNotes();
         }, []);
     
-    const getNotes = (props="DSC") => {
+    const getNotes = (props="ASC") => {
         api.get("/users/me/items/", {
             headers: {
                 'Authorization': 'Bearer ' + token 
@@ -60,6 +60,7 @@ export default function GetUserNotes() {
     return (
         <ChakraProvider>
             <Box>
+                <Text fontSize={"2xl"} mr={"5rem"}>Все заметки</Text>
                 <UnorderedList>
                     {note.map((item) => (
                         <ListItem mr={"5rem"} padding={"1rem"} pt={"1rem"} minW={"200px"} maxW={"700px"}
@@ -95,7 +96,6 @@ export default function GetUserNotes() {
                 </UnorderedList>
                 <Text hidden={note.length !== 0}>Нет заметок</Text>
             </Box>
-            <Text mr={"5rem"}>Все заметки</Text>
         </ChakraProvider>
         )
 }

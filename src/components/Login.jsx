@@ -68,6 +68,9 @@ export default function App() {
                                 minLength: { value: 2, message: 'Минимальная длина слова - 2' },
                             })}
                         />
+                        <FormErrorMessage>
+                            {errors.name && errors.name.message}
+                        </FormErrorMessage>
                         <FormLabel mt={"0.5rem"}>Пароль</FormLabel>
                         <Input
                             isRequired={true}

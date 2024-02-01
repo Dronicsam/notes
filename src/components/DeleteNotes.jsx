@@ -25,7 +25,7 @@ export default function DeleteNotes() {
     useEffect(() => {
         getUsername();
         }, []);
-    const getUsername = (props="DSC") => {
+    const getUsername = (props="ASC") => {
         api.get("/users/me", {
             headers: {
                 'Authorization': 'Bearer ' + token 
@@ -57,7 +57,7 @@ export default function DeleteNotes() {
                 </Stack>
             </Center>
             <Box ml={"4rem"} mt={"2rem"}>
-                <Text fontSize={"2xl"}>Мои заметки</Text>
+                <Text fontSize={"2xl"}>Удаление заметок</Text>
                 <Box mt={"1rem"} display={"flex"} flex-direction={"row"}>
                     <DeleteUserNotes display={"flex"} />
                 </Box>

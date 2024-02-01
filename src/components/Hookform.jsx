@@ -12,7 +12,7 @@ import { Tooltip } from '@chakra-ui/react'
 import {v4 as uuidv4} from 'uuid';
 
 export default function Hookform() {
-    
+    let currentDate = new Date().toJSON().slice(0, 10);
     let UserIn = localStorage.getItem("access_token")
     if (!UserIn) {
         UserIn = false;
@@ -23,7 +23,7 @@ export default function Hookform() {
     useEffect(() => {
         getData();
         }, []);
-    const getData = (props="DSC") => {
+    const getData = (props="ASC") => {
         api.get("/users/me", {
             headers: {
                 'Authorization': 'Bearer ' + UserIn 
@@ -52,7 +52,7 @@ export default function Hookform() {
                     "note_id": note_uuid,
                     "note_name": data.note_name,
                     "text": String(data.text),
-                    "date": String(data.date),
+                    "date": currentDate,
                     "author": user_data.username,
                     "was_checked": false
                 }
@@ -95,6 +95,9 @@ export default function Hookform() {
                         required: 'Это поле обязательно!'
                     })}
                 />
+                <FormErrorMessage>
+                    {errors.name && errors.name.message}
+                </FormErrorMessage>
                 <FormLabel mt={"1rem"}>Текст заметки</FormLabel>
                 <Textarea
                     isRequired={true}
@@ -106,19 +109,6 @@ export default function Hookform() {
                         minLength: { value: 2, message: 'Минимальная длина заметки - 2' },
                     })}
                 
-                />
-                <FormErrorMessage>
-                    {errors.name && errors.name.message}
-                </FormErrorMessage>
-                <FormLabel mt={"1rem"}>Дата</FormLabel>
-                <Input
-                    width={"min"}
-                    isRequired={true}
-                    id={"date"}
-                    type={"date"}
-                    {...register('date', {
-                        minLength: { value: 2, message: 'Минимальная длина слова - 2' },
-                    })}
                 />
                 <FormErrorMessage>
                     {errors.name && errors.name.message}

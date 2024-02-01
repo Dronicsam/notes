@@ -37,7 +37,7 @@ export default function RegisterHook() {
                     "third_name": data.third_name,
                     "phonenumber": String(phone),
                     "position": data.position,
-                    "isAdmin": false
+                    "isAdmin": "False"
                 }).then(function (response) {
                     window.alert("Вы успешно зарегистрованы! Теперь вы можете войти в сервис.");
                     window.location.href='/login';
@@ -77,6 +77,9 @@ export default function RegisterHook() {
                         minLength: { value: 2, message: 'Минимальная длина логина - 2' },
                     })}
                 />
+                <FormErrorMessage>
+                    {errors.name && errors.name.message}
+                </FormErrorMessage>
                 <FormLabel mt={"0.5rem"}>Пароль</FormLabel>
                 <Input
                     isRequired={true}
@@ -88,6 +91,9 @@ export default function RegisterHook() {
                     })}
                 />
                 <FormHelperText>Минимальная длина пароля - 6</FormHelperText>
+                <FormErrorMessage>
+                    {errors.name && errors.name.message}
+                </FormErrorMessage>
                 <FormLabel mt={"0.5rem"}>Фамилия</FormLabel>
                 <Input
                     isRequired={true}
@@ -98,6 +104,9 @@ export default function RegisterHook() {
                         minLength: { value: 2, message: 'Минимальная длина слова - 2' },
                     })}
                 />
+                <FormErrorMessage>
+                    {errors.name && errors.name.message}
+                </FormErrorMessage>
                 <FormLabel mt={"0.5rem"}>Имя</FormLabel>
                 <Input
                     isRequired={true}
@@ -108,6 +117,9 @@ export default function RegisterHook() {
                         minLength: { value: 2, message: 'Минимальная длина слова - 2' },
                     })}
                 />
+                <FormErrorMessage>
+                    {errors.name && errors.name.message}
+                </FormErrorMessage>
                 <FormLabel mt={"0.5rem"}>Отчество</FormLabel>
                 <Input
                     isRequired={true}
@@ -117,6 +129,9 @@ export default function RegisterHook() {
                         minLength: { value: 2, message: 'Минимальная длина слова - 2' },
                     })}
                 />
+                <FormErrorMessage>
+                    {errors.name && errors.name.message}
+                </FormErrorMessage>
                 <FormLabel mt={"0.5rem"}>Номер телефона</FormLabel>
                 <Box m={0} borderWidth='1px' borderRadius='lg' height={"min"} display={"flex"}>
                     <PhoneInput
@@ -125,6 +140,9 @@ export default function RegisterHook() {
                         onChange={(phone) => setPhone(phone)}
                     />
                 </Box>
+                <FormErrorMessage>
+                    {errors.name && errors.name.message}
+                </FormErrorMessage>
                 <FormLabel mt={"0.5rem"}>Должность</FormLabel>
                 <Input
                     isRequired={true}

@@ -14,8 +14,8 @@ export default function GetUncheckedUserNotes() {
         getNotes();
         }, []);
 
-    const getNotes = (props="DSC") => {
-        api.get("/users/me/items/", {
+    const getNotes = (props="ASC") => {
+        api.get(`/users/me/items?type_of_notes=${0}`, {
             headers: {
                 'Authorization': 'Bearer ' + token 
             }}, )
@@ -64,13 +64,9 @@ export default function GetUncheckedUserNotes() {
             new_note.push(note[key])
         }
     }
-    const hide = () => {
-        return new_note.length > 0;
-        
-    }
     return (
         <ChakraProvider>
-            <Text hidden={true}>Все заметки проверены / Заметок нет</Text>
+            <Text fontSize={"2xl"} mr={"5rem"}>Непроверенные заметки</Text>
             <UnorderedList>
                 {new_note.map((item) => (
                     <ListItem mr={"5rem"} padding={"1rem"} pt={"1rem"} minW={"200px"} maxW={"700px"}
@@ -103,8 +99,7 @@ export default function GetUncheckedUserNotes() {
                     </ListItem>
                     ) )}
             </UnorderedList>
-            <Text mr={"5rem"}>Непроверенные заметки</Text>
-            <Text hidden={note.length !== 0}>Непроверенных заметок нет</Text>
+            <Text fontSize={"ml"} hidden={note.length !== 0}>Непроверенных заметок нет</Text>
         </ChakraProvider>
         )
 }
