@@ -2,16 +2,18 @@
 FROM python:3.11-alpine
 
 # 
-WORKDIR /backend
+WORKDIR /code
 
-# 
-COPY ./requirements.txt /backend/requirements.txt
+#
+COPY . /code/
 
-# 
-RUN pip install --no-cache-dir --upgrade -r /backend/requirements.txt
+#
+RUN apk add --update --no-cache --virtual .tmp-build-deps \
+    gcc libc-dev linux-headers postgresql-dev \
+    && apk add libffi-dev
+RUN pip install --no-cache-dir --upgrade -r requirments.txt
 
-# 
-COPY ./app /code/app
+ENV PYTHONPATH "${PYTHONPATH}:/code/app/"
 
 # 
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80"]

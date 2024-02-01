@@ -1,4 +1,4 @@
-FROM node:lts-bullseye-slim Node
+FROM node:lts-bullseye-slim
 
 # set working directory
 WORKDIR /
