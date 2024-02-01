@@ -12,15 +12,16 @@ import Menu from "./Menu.jsx"
 
 import theme from "./Font.jsx"
 
-import Get_user_notes from "./Get_user_notes.jsx"
+import DeleteUserNotes from "./DeleteNotesAlg.jsx";
 
 import api from "../api.js"
 
-export default function Account() {
+
+export default function DeleteNotes() {
     const [username, setUsername] = useState([]);
-    
+
     let token = localStorage.getItem("access_token")
-    
+
     useEffect(() => {
         getUsername();
         }, []);
@@ -58,7 +59,7 @@ export default function Account() {
             <Box ml={"4rem"} mt={"2rem"}>
                 <Text fontSize={"2xl"}>Мои заметки</Text>
                 <Box mt={"1rem"} display={"flex"} flex-direction={"row"}>
-                    <Get_user_notes display={"flex"} />
+                    <DeleteUserNotes display={"flex"} />
                 </Box>
             </Box>
             <Spacer mt={"5rem"}></Spacer>

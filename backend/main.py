@@ -32,8 +32,7 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 1440
 app = FastAPI()
 
 origins = [
-    "http://localhost:1234/register",
-    "http://localhost:1234/login"
+    "http://localhost:1234/"
 ]
 
 app.add_middleware(
@@ -82,6 +81,14 @@ class NoteBase(BaseModel):
     author: str
     was_checked: bool
 
+
+class OnlyNote(BaseModel):
+    note_id: str
+
+
+class UpdateNote(OnlyNote):
+    new_text: str
+    
 
 class NoteModel(NoteBase):
     class Config:
@@ -270,3 +277,31 @@ async def read_own_items(
     user_id: str = current_user.user_id
     notes = db.query(models.Notes).filter_by(user_id=user_id).all()
     return notes
+
+
+@app.put("/items/update_note")
+async def update_item(db: db_dependency, note: UpdateNote,
+                      current_user: Annotated[User, Depends(get_current_active_user)]):
+    db_item = db.query(models.Notes).filter(models.Notes.note_id == note.note_id).first()
+    current_datetime = datetime.now()
+    formatted_datetime = current_datetime.strftime("%Y-%m-%d")
+    if db_item.user_id == current_user.user_id:
+        db_item.text = note.new_text
+        db_item.date = formatted_datetime
+        db.commit()
+        raise HTTPException(status_code=200, detail="Note has been updated")
+    else:
+        raise HTTPException(status_code=401, detail="You don`t have access to that note")
+
+
+@app.delete("/items/delete_note/{note}")
+async def update_item(db: db_dependency, note: str,
+                      current_user: Annotated[User, Depends(get_current_active_user)]):
+    db_item = db.query(models.Notes).filter(models.Notes.note_id == note).first()
+    if db_item.user_id == current_user.user_id:
+        db.delete(db_item)
+        db.commit()
+        raise HTTPException(status_code=200, detail="Note has been deleted")
+    else:
+        raise HTTPException(status_code=401, detail="You don`t have access to that note"
+    )

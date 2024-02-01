@@ -1,5 +1,6 @@
 import api from "../api.js";
 import { useEffect, useState } from "react";
+import { ChakraProvider, UnorderedList, ListItem } from "@chakra-ui/react"
 import "../style/style.css"
 
 export default function GetNotes() {
@@ -14,16 +15,21 @@ export default function GetNotes() {
             )
     }
     return (
-        <ul className={"flexed"}>
-            {note.map((item) => (
-                <li className={"list_el"} key={item.user_id}>
-                    <br/>Автор - {item.author}
-                    <br/>Название: {item.note_name}
-                    <br/>Текст:
-                    <br/>&emsp; {item.text}
-                    <br/>Дата: {item.date}
-                    <br/>Проверена? - {item.was_checked.toString()}
-                </li>
-                ))}
-        </ul>
-        );}
+        <ChakraProvider>
+            <UnorderedList>
+                {note.map((item) => (
+                    <ListItem mr={"5rem"} padding={"1rem"} pt={"1rem"} minW={"200px"} maxW={"700px"}
+                        key={item.user_id} border={"1px"} borderColor={"gray.300"} mb={"0.5rem"} rounded="md">
+                        Автор: {item.author}
+                        <br/>Название: {item.note_name}
+                        <br/>Текст:
+                        <br/>&emsp; {item.text}
+                        <br/>Дата: {item.date}
+                        <br/>Проверена? - {item.was_checked.toString()}
+                    </ListItem>
+                    ) )}
+            </UnorderedList>
+        </ChakraProvider>
+        )
+}
+        

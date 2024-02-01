@@ -6,6 +6,7 @@ import Index from "./components/Index.jsx";
 import Register from "./components/Register.jsx";
 import Error from "./components/404.jsx";
 import Account from "./components/Account.jsx";
+import DeleteNotes from "./components/DeleteNotes.jsx";
 
 import { isSession } from "./components/Is_Session.js";
 
@@ -37,6 +38,14 @@ let component
     case "/account":
       if (token){
         component = <Account />
+        break
+      }else {
+        component = <Login />
+        break
+      }
+    case "/delete_notes":
+      if (token){
+        component = <DeleteNotes />
         break
       }else {
         component = <Login />

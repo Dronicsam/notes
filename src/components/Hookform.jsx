@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 
 import { Input, Textarea } from '@chakra-ui/react'
 import { Button } from "@chakra-ui/react"
+import { CheckCircleIcon } from "@chakra-ui/icons";
 
 import { FormControl, FormLabel, FormErrorMessage } from '@chakra-ui/react'
 import api from "../api.js"
@@ -123,7 +124,8 @@ export default function Hookform() {
                 </FormErrorMessage>
             </FormControl>
             <Tooltip label={label_text}>
-                <Button isDisabled={!UserIn} mt={4} isLoading={isSubmitting} type={"submit"} _hover={{ bg: "green", color: "white"}}> Написать заметку </Button>
+                <Button isDisabled={!UserIn} mt={4} isLoading={isSubmitting} leftIcon={<CheckCircleIcon />}
+                    type={"submit"} _hover={{ bg: "green", color: "white"}}> Написать заметку </Button>
             </Tooltip>
         </form>
         )

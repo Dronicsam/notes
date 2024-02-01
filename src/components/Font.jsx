@@ -7,6 +7,14 @@ const theme = extendTheme({
     heading: `'Open Sans', sans-serif`,
     body: `'Raleway', sans-serif`,
   },
+  styles: {
+    global: {
+      body: {
+        w: "device-width",
+        h: "fit-content",
+      }
+    }
+  }
 })
 
 export default theme

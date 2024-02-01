@@ -24,9 +24,6 @@ export default function App() {
             setTimeout(() => {
                 const str_data = JSON.stringify(values, null)
                 const data = JSON.parse(str_data)
-                const form_data = new FormData()
-                form_data.append("username", data.username)
-                form_data.append("password", data.password)
                 api.post("/token", {
                     "username": data.username,
                     "password": data.password

@@ -3,10 +3,10 @@ import { ChakraProvider } from '@chakra-ui/react'
 import { Menu, MenuButton, MenuList, MenuItem, Link, IconButton } from "@chakra-ui/react"
 import { HamburgerIcon } from "@chakra-ui/icons";
 
-
 export default function Menu() {
     var label_text;
     var ref_link;
+    var btn_clr;
     let UserIn = localStorage.getItem("access_token")
     if (!UserIn) {
         ref_link = "/login"
@@ -24,7 +24,7 @@ export default function Menu() {
                     <Link href={"/"} _hover={{ textDecoration: "none" }}>
                         <MenuItem>Все заметки</MenuItem>
                     </Link>
-                    <Link href={"/note"} _hover={{ textDecoration: "none" }}>
+                    <Link hidden={!UserIn} href={"/note"} _hover={{ textDecoration: "none" }}>
                         <MenuItem>Написать заметку</MenuItem>
                     </Link>
                     <Link hidden={!UserIn} href={"/account"} _hover ={{ textDecoration: "none" }}>
