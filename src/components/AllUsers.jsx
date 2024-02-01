@@ -10,7 +10,7 @@ import Menu from "./Menu.jsx"
 
 import theme from "./Font.jsx"
 
-import GetNotes from "./Get_notes.jsx"
+import GetUsers from "./GetUsers.jsx";
 
 import { useState, useEffect } from "react";
 
@@ -27,7 +27,7 @@ if (UserIn){
     label = "Войти"
 }
 
-export default function App() {
+export default function AllUsers() {
     const [isAdmin, setStatus] = useState([]);
 
     let token = localStorage.getItem("access_token")
@@ -47,12 +47,10 @@ export default function App() {
     return (
         <ChakraProvider theme={theme}>
             <Box display={"flexbox"}>
-                
+
                 <Menu />
+
                 
-                <Link _hover={{ textDecoration: "none" }} href={"/rev"}>
-                    <Button hidden={!isAdmin.isAdmin} mt={"1rem"} mr={"1rem"} float={"right"}>Ревизия заметок</Button>
-                </Link>
                 <Link _hover={{ textDecoration: "none" }} href={link}>
                     <Button mt={"1rem"} mr={"1rem"} float={"right"}>{label}</Button>
                 </Link>
@@ -62,13 +60,13 @@ export default function App() {
                     Главная
                 </Text>
             </Center>
-            
+
             <Box ml={"4rem"} mt={"2rem"}>
-                <Text fontSize={"2xl"}>Все заметки</Text>
+                <Text fontSize={"2xl"}>Все пользователи</Text>
                 <Box mt={"1rem"} display={"flex"} flex-direction={"row"}>
-                    
-                    <GetNotes display={"flex"} />
-                
+
+                    <GetUsers display={"flex"} />
+
                 </Box>
             </Box>
             <Spacer mt={"5rem"}></Spacer>

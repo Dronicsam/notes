@@ -61,6 +61,7 @@ class User(BaseModel):
     third_name: str
     phonenumber: PhoneNumber
     position: str
+    isAdmin: bool
 
 
 class RegisterBase(User):
@@ -88,6 +89,10 @@ class OnlyNote(BaseModel):
 
 class UpdateNote(OnlyNote):
     new_text: str
+    
+
+class RevNote(OnlyNote):
+    was_checked: bool
     
 
 class NoteModel(NoteBase):
@@ -193,6 +198,7 @@ def get_user(db: db_dependency, username: str):
             "phonenumber": obj.phonenumber,
             "position": obj.position,
             "hashed_pass": obj.hashed_pass,
+            "isAdmin": obj.isAdmin
         }
         return RegisterBase(**user_dict)
 
@@ -266,8 +272,13 @@ async def l_for_access_token(
 async def read_users_me(
         current_user: Annotated[User, Depends(get_current_active_user)]
 ):
-    return {"first_name": current_user.name, "second_name": current_user.second_name, "third_name": current_user.third_name, "username": current_user.username, "user_id": current_user.user_id}
-
+    data = {"first_name": current_user.name,
+            "second_name": current_user.second_name,
+            "third_name": current_user.third_name,
+            "username": current_user.username,
+            "user_id": current_user.user_id,
+            "isAdmin": current_user.isAdmin}
+    return data
 
 @app.get("/users/me/items/")
 async def read_own_items(
@@ -287,6 +298,21 @@ async def update_item(db: db_dependency, note: UpdateNote,
     formatted_datetime = current_datetime.strftime("%Y-%m-%d")
     if db_item.user_id == current_user.user_id:
         db_item.text = note.new_text
+        db_item.date = formatted_datetime
+        db.commit()
+        raise HTTPException(status_code=200, detail="Note has been updated")
+    else:
+        raise HTTPException(status_code=401, detail="You don`t have access to that note")
+
+
+@app.put("/items/rev_note")
+async def rev_item(db: db_dependency, note: RevNote,
+                      current_user: Annotated[User, Depends(get_current_active_user)]):
+    db_item = db.query(models.Notes).filter(models.Notes.note_id == note.note_id).first()
+    current_datetime = datetime.now()
+    formatted_datetime = current_datetime.strftime("%Y-%m-%d")
+    if current_user.isAdmin:
+        db_item.was_checked = note.was_checked
         db_item.date = formatted_datetime
         db.commit()
         raise HTTPException(status_code=200, detail="Note has been updated")

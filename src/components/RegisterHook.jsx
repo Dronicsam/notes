@@ -36,7 +36,8 @@ export default function RegisterHook() {
                     "second_name": data.second_name,
                     "third_name": data.third_name,
                     "phonenumber": String(phone),
-                    "position": data.position
+                    "position": data.position,
+                    "isAdmin": false
                 }).then(function (response) {
                     window.alert("Вы успешно зарегистрованы! Теперь вы можете войти в сервис.");
                     window.location.href='/login';

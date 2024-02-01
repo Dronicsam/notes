@@ -7,13 +7,14 @@ import Register from "./components/Register.jsx";
 import Error from "./components/404.jsx";
 import Account from "./components/Account.jsx";
 import DeleteNotes from "./components/DeleteNotes.jsx";
+import Revision from "./components/Revision.jsx";
+import AllUsers from "./components/AllUsers.jsx";
 
 import { isSession } from "./components/Is_Session.js";
 
-
 const root = createRoot(document.getElementById("app"));
 
-const token = localStorage.getItem("access_token");
+let token = localStorage.getItem("access_token")
 
 isSession(token)
 
@@ -23,8 +24,13 @@ let component
       component = <Index />
       break
     case "/note":
-      component = <Note />
-      break
+      if (token){
+        component = <Note />
+        break
+      }else {
+        component = <Login />
+        break
+      }
     case "/login":
       component = <Login />
       break
@@ -32,8 +38,8 @@ let component
       component = <Register />
       break
     case "/logout":
-      component = <Index />
       localStorage.clear()
+      component = <Index />
       break
     case "/account":
       if (token){
@@ -51,6 +57,17 @@ let component
         component = <Login />
         break
       }
+    case "/rev":
+      if (token){
+        component = <Revision />
+        break
+      }else {
+        component = <Login />
+        break
+      }
+    case "/users":
+      component = <AllUsers />
+      break
     default:
       component = <Error />
 }

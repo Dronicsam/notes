@@ -13,6 +13,7 @@ class Users(Base):
     third_name = Column(String)
     phonenumber = Column(String, unique=True)
     position = Column(String)
+    isAdmin = Column(Boolean, default=False)
     
     
 class Notes(Base):
