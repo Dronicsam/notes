@@ -35,7 +35,7 @@ export default function AllUsers() {
     useEffect(() => {
         getUsername();
         }, []);
-    const getUsername = (props="ASC") => {
+    const getUsername = (props="DSC") => {
         api.get("/users/me", {
             headers: {
                 'Authorization': 'Bearer ' + token 

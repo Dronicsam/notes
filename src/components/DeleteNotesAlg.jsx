@@ -14,7 +14,7 @@ export default function DeleteUserNotes() {
         getNotes();
         }, []);
 
-    const getNotes = (props="ASC") => {
+    const getNotes = (props="DSC") => {
         api.get("/users/me/items/", {
             headers: {
                 'Authorization': 'Bearer ' + token 

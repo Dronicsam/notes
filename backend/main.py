@@ -118,15 +118,6 @@ def docs():
     return RedirectResponse("http://127.0.0.1:8000/docs")
 
 
-@app.post("/upload_note", response_model=NoteModel)
-async def upload_note(note: NoteBase, db: db_dependency):
-    db_upload = models.Notes(**note.model_dump())
-    db.add(db_upload)
-    db.commit()
-    db.refresh(db_upload)
-    return db_upload
-
-
 @app.post("/register_complete", response_model=RegisterModel)
 async def create_user(data: RegisterBase, db: db_dependency):
     try:
@@ -149,12 +140,6 @@ async def get_users(db: db_dependency, skip: int = 0, limit: int = 100):
 @app.get("/get_notes", response_model=List[NoteModel])
 async def get_notes(db: db_dependency, skip: int = 0, limit: int = 100):
     notes = db.query(models.Notes).offset(skip).limit(limit).all()
-    return notes
-
-
-@app.get("/get_user_notes", response_model=List[NoteModel])
-async def get_notes(db: db_dependency, user_id: str):
-    notes = db.query(models.Notes).where(models.Notes.user_id == user_id)
     return notes
 
 
@@ -283,11 +268,18 @@ async def read_users_me(
 @app.get("/users/me/items/")
 async def read_own_items(
         current_user: Annotated[User, Depends(get_current_active_user)],
-        db: db_dependency
+        db: db_dependency,
+        type_of_notes: bool | None = None,
 ):
     user_id: str = current_user.user_id
     notes = db.query(models.Notes).filter_by(user_id=user_id).all()
-    return notes
+    if type_of_notes is None:
+        return notes
+    new_notes = []
+    for key in range(len(notes)):
+        if notes[key].was_checked == type_of_notes:
+            new_notes.append(notes[key])
+    return new_notes
 
 
 @app.put("/items/update_note")
@@ -303,6 +295,18 @@ async def update_item(db: db_dependency, note: UpdateNote,
         raise HTTPException(status_code=200, detail="Note has been updated")
     else:
         raise HTTPException(status_code=401, detail="You don`t have access to that note")
+    
+    
+@app.post("/upload_note", response_model=NoteModel)
+async def upload_note(note: NoteBase, db: db_dependency, current_user: Annotated[User, Depends(get_current_active_user)]):
+    if current_user:
+        db_upload = models.Notes(**note.model_dump())
+        db.add(db_upload)
+        db.commit()
+        db.refresh(db_upload)
+        return db_upload
+    else:
+        raise HTTPException(status_code=401, detail="You don`t have access to that")
 
 
 @app.put("/items/rev_note")

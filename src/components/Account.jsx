@@ -12,19 +12,25 @@ import Menu from "./Menu.jsx"
 
 import theme from "./Font.jsx"
 
-import Get_user_notes from "./Get_user_notes.jsx"
+import GetUserNotes from "./Get_user_notes.jsx"
+import GetCheckedUserNotes from "./Get_user_checked_notes.jsx";
+import GetUncheckedUserNotes from "./Get_user_unchecked_notes.jsx";
 
 import api from "../api.js"
 
 export default function Account() {
     const [username, setUsername] = useState([]);
+    const [all, setAll] = useState([])
+    const [show_checked, setShowChecked] = useState(false)
+    const [show_unchecked, setShowUnchecked] = useState(false)
+    
     
     let token = localStorage.getItem("access_token")
     
     useEffect(() => {
         getUsername();
         }, []);
-    const getUsername = (props="ASC") => {
+    const getUsername = (props="DSC") => {
         api.get("/users/me", {
             headers: {
                 'Authorization': 'Bearer ' + token 
@@ -42,6 +48,21 @@ export default function Account() {
                 <Link _hover={{ textDecoration: "none" }} href={"/note"}>
                     <Button mt={"1rem"} mr={"1rem"} float={"right"}>Новая заметка</Button>
                 </Link>
+                <Button onClick={()=>{
+                    setShowChecked(false);
+                    setShowUnchecked(false);
+                    setAll(true)
+                }} mt={"1rem"} mr={"1rem"} float={"right"}>Все заметки</Button>
+                <Button onClick={()=>{
+                    setShowChecked(true);
+                    setShowUnchecked(false)
+                    setAll(false)
+                }} mt={"1rem"} mr={"1rem"} float={"right"}>Проверенные заметки</Button>
+                <Button onClick={()=>{
+                    setShowUnchecked(true)
+                    setShowChecked(false)
+                    setAll(false)
+                }} mt={"1rem"} mr={"1rem"} float={"right"}>Непроверенные заметки</Button>
             </Box>
             <Center>
                 <Stack>
@@ -56,9 +77,14 @@ export default function Account() {
                 </Stack>
             </Center>
             <Box ml={"4rem"} mt={"2rem"}>
-                <Text fontSize={"2xl"}>Мои заметки</Text>
-                <Box mt={"1rem"} display={"flex"} flex-direction={"row"}>
-                    <Get_user_notes display={"flex"} />
+                <Box hidden={!all} mt={"1rem"} display={"flex"} flex-direction={"row"}>
+                    <GetUserNotes/>
+                </Box>
+                <Box hidden={!show_checked} mt={"1rem"} display={"flex"} flex-direction={"row"}>
+                    <GetCheckedUserNotes/>
+                </Box>
+                <Box hidden={!show_unchecked} mt={"1rem"} display={"flex"} flex-direction={"row"}>
+                    <GetUncheckedUserNotes />
                 </Box>
             </Box>
             <Spacer mt={"5rem"}></Spacer>

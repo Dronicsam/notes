@@ -23,7 +23,7 @@ export default function Hookform() {
     useEffect(() => {
         getData();
         }, []);
-    const getData = (props="ASC") => {
+    const getData = (props="DSC") => {
         api.get("/users/me", {
             headers: {
                 'Authorization': 'Bearer ' + UserIn 
@@ -67,7 +67,8 @@ export default function Hookform() {
                     "was_checked": datalog.was_checked
                 }, {
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + UserIn
                     }
                 }).then(function (response) {
                         window.location.href='/';

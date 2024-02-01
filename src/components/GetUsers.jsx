@@ -7,7 +7,7 @@ export default function GetUsers() {
     useEffect(() => {
         getUsers();
         }, []);
-    const getUsers = (props="ASC") => {
+    const getUsers = (props="DSC") => {
         api.get("/get_users")
         .then(
             (res) =>  setUsers(res.data)
