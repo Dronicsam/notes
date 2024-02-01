@@ -19,11 +19,17 @@ from fastapi.responses import RedirectResponse
 
 # Модули middleware
 from fastapi.middleware.cors import CORSMiddleware
+from dotenv import load_dotenv
+import os
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Код
 
 # openssl rand -hex 32
-SECRET_KEY = "3837dc4c28200536408d8b5079cf0a84bdef8cc695e2d4c7b36b657b6c717396"
+SECRET_KEY = os.environ['SECRET_KEY']
+
 
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 1440
