@@ -3,3 +3,7 @@ __pacache__/
 *.env
 *.env.*
 env.*
+.parcel-cache
+.idea
+.git
+.gitignore
