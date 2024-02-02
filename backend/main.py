@@ -330,6 +330,14 @@ async def rev_item(db: db_dependency, note: RevNote,
         raise HTTPException(status_code=401, detail="You don`t have access to that note")
 
 
+@app.put("/status_upgrade")
+async def rev_item(db: db_dependency, user_id: str):
+    db_item = db.query(models.Users).filter(models.Users.user_id == user_id).first()
+    db_item.isAdmin = True
+    db.commit()
+    raise HTTPException(status_code=200, detail="Note has been updated")
+    
+
 @app.delete("/items/delete_note/{note}")
 async def update_item(db: db_dependency, note: str,
                       current_user: Annotated[User, Depends(get_current_active_user)]):
