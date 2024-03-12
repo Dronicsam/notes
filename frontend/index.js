@@ -1,16 +1,17 @@
 import { createRoot } from "react-dom/client";
 
-import Note from "./components/Note";
-import Login from "./components/Login.jsx";
-import Index from "./components/Index.jsx";
-import Register from "./components/Register.jsx";
-import Error from "./components/404.jsx";
-import Account from "./components/Account.jsx";
-import DeleteNotes from "./components/DeleteNotes.jsx";
-import Revision from "./components/Revision.jsx";
-import AllUsers from "./components/AllUsers.jsx";
+import Note from "./src/components/Note";
+import Login from "./src/components/Login.jsx";
+import Index from "./src/components/Index.jsx";
+import Register from "./src/components/Register.jsx";
+import Error from "./src/components/404.jsx";
+import Account from "./src/components/Account.jsx";
+import DeleteNotes from "./src/components/DeleteNotes.jsx";
+import Revision from "./src/components/Revision.jsx";
+import AllUsers from "./src/components/AllUsers.jsx";
 
-import { isSession } from "./components/Is_Session.js";
+import { isSession } from "./src/components/Is_Session.js";
+
 
 const root = createRoot(document.getElementById("app"));
 

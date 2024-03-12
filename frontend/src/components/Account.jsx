@@ -16,7 +16,7 @@ import GetUserNotes from "./Get_user_notes.jsx"
 import GetCheckedUserNotes from "./Get_user_checked_notes.jsx";
 import GetUncheckedUserNotes from "./Get_user_unchecked_notes.jsx";
 
-import api from "../api.js"
+import api from "../../api.js"
 
 export default function Account() {
     const [username, setUsername] = useState([]);

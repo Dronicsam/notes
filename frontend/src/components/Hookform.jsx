@@ -6,7 +6,7 @@ import { Button } from "@chakra-ui/react"
 import { CheckCircleIcon } from "@chakra-ui/icons";
 
 import { FormControl, FormLabel, FormErrorMessage } from '@chakra-ui/react'
-import api from "../api.js"
+import api from "../../api.js"
 import { Tooltip } from '@chakra-ui/react'
 
 import {v4 as uuidv4} from 'uuid';

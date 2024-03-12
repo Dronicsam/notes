@@ -14,7 +14,7 @@ import GetUsers from "./GetUsers.jsx";
 
 import { useState, useEffect } from "react";
 
-import api from "../api.js"
+import api from "../../api.js"
 
 let UserIn = localStorage.getItem("access_token")
 let link;

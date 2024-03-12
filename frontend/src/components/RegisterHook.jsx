@@ -7,7 +7,7 @@ import { FormControl, FormLabel, FormErrorMessage, FormHelperText } from '@chakr
 
 import { PhoneInput } from 'react-international-phone';
 
-import api from "../api.js"
+import api from "../../api.js"
 
 import libphonenumber from 'google-libphonenumber';
 

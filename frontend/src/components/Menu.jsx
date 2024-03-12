@@ -2,7 +2,7 @@ import { ChakraProvider } from '@chakra-ui/react'
 
 import { Menu, MenuButton, MenuList, MenuItem, Link, IconButton } from "@chakra-ui/react"
 import { HamburgerIcon } from "@chakra-ui/icons";
-import api from "../api.js"
+import api from "../../api.js"
 import { useState, useEffect } from "react"
 
 export default function Menu() {

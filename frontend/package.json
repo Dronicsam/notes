@@ -30,7 +30,7 @@
     "uuid": "^9.0.1"
   },
   "type": "module",
-  "source": "src/index.html",
+  "source": "index.html",
   "devDependencies": {
     "assert": "^2.1.0",
     "buffer": "^6.0.3",

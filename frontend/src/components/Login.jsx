@@ -10,7 +10,7 @@ import { Button, Link } from "@chakra-ui/react"
 import Menu from "./Menu.jsx"
 
 import theme from "./Font.jsx"
-import api from "../api.js"
+import api from "../../api.js"
 import {useForm} from "react-hook-form";
 
 export default function App() {

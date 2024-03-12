@@ -14,7 +14,7 @@ import theme from "./Font.jsx"
 
 import DeleteUserNotes from "./DeleteNotesAlg.jsx";
 
-import api from "../api.js"
+import api from "../../api.js"
 
 
 export default function DeleteNotes() {

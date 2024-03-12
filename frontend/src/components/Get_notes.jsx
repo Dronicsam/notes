@@ -1,4 +1,4 @@
-import api from "../api.js";
+import api from "../../api.js";
 import { useEffect, useState } from "react";
 import { ChakraProvider, UnorderedList, ListItem } from "@chakra-ui/react"
 import "../style/style.css"

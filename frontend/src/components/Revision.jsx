@@ -15,7 +15,7 @@ import theme from "./Font.jsx"
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form"
 
-import api from "../api.js"
+import api from "../../api.js"
 
 export default function Revision() {
     const [isAdmin, setStatus] = useState([]);
